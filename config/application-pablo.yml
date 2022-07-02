@@ -1,0 +1,8 @@
+spring:
+
+  datasource:
+    platform: firebird
+    url: jdbc:firebirdsql://192.168.16.220:3050//opt/interbase/data/tape-majo.fdb
+    username: SYSDBA
+    password: asdf
+    driverClassName: org.firebirdsql.jdbc.FBDriver
