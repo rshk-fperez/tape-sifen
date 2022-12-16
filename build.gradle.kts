@@ -23,6 +23,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.roshka.sifen:rshk-jsifenlib:0.2.1")
 	implementation("org.firebirdsql.jdbc:jaybird:4.0.6.java11")
+	implementation("javax.xml.soap:javax.xml.soap-api:1.4.0")
+	implementation("org.glassfish.metro:webservices-rt:2.4.4")
+	implementation("org.glassfish.metro:webservices-api:2.4.4")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class SifenService {
 
-    val logger : LoggerFactory
+    protected lateinit var logger : LoggerFactory
 
 
     @Scheduled
