@@ -40,3 +40,4 @@ out/
 ### local configuration files
 
 /config/application-*.yml
+config/sifen.properties
