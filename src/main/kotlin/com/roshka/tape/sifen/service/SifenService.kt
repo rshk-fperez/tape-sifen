@@ -80,7 +80,6 @@ class SifenService {
 		val camFe = TgCamFE()
 		val totSub = TgTotSub()
 		val camCond = TgCamCond()
-		val pagConEIni = TgPaConEIni()
 		val camItem = TgCamItem()
 		val valorItem = TgValorItem()
 		val valorRestaItem = TgValorRestaItem()
@@ -145,38 +144,27 @@ class SifenService {
 		timbrado.setdSerieNum("AA")
 		timbrado.setdFeIniT(factura.fechaInicioTimbrado)
 				
-		when(factura.indicadorPresencia) {
-			1 -> {
-				camFe.setiIndPres(TiIndPres.OPERACION_PRESENCIAL)
-				camFe.setdDesIndPres("Operación presencial")
-			}
-			2 -> {
-				camFe.setiIndPres(TiIndPres.OPERACION_ELECTRONICA)
-				camFe.setdDesIndPres("Operación electrónica")
-			}
-			3 -> {
-				camFe.setiIndPres(TiIndPres.OPERACION_TELEMARKETING)
-				camFe.setdDesIndPres("Operación telemarketing")
-			}
-			4 -> {
-				camFe.setiIndPres(TiIndPres.VENTA_A_DOMICILIO)
-				camFe.setdDesIndPres("Venta a domicilio")
-			}
-			5 -> {
-				camFe.setiIndPres(TiIndPres.OPERACION_BANCARIA)
-				camFe.setdDesIndPres("Operación bancaria")
-			}
-		}
+		camFe.setiIndPres(TiIndPres.getByVal(factura.indicadorPresencia.toShort()))
+		camFe.setdDesIndPres(camFe.getiIndPres().getDescripcion())
+		
 		camFe.setdFecEmNR(factura.fechaEmNR)
 		
  		tipDe.setgCamFE(camFe)
 		//  TgCamCond gCamCond
-		pagConEIni.setiTiPago(TiTiPago.EFECTIVO)
-		pagConEIni.setdMonTiPag(BigDecimal(1000000))
-		pagConEIni.setcMoneTiPag(CMondT.PYG)
-		pagConEIni.setdTiCamTiPag(BigDecimal(1))
-		camCond.setgPaConEIniList(mutableListOf(pagConEIni))
-		camCond.setiCondOpe(TiCondOpe.CONTADO)
+		
+		var pagConEIni = TgPaConEIni()
+		var pagConEIniList = mutableListOf(pagConEIni)
+		pagConEIniList.removeAt(0)
+		factura.pagoContadoEntregaInicial.forEach(){
+			var pagConEIni = TgPaConEIni()
+			pagConEIni.setiTiPago(TiTiPago.getByVal(it.tipoPago.toShort()))
+			pagConEIni.setdMonTiPag(it.montoPago)
+			pagConEIni.setcMoneTiPag(CMondT.getByName(it.monedaPago))
+			pagConEIni.setdTiCamTiPag(it.tipoCambio)
+			pagConEIniList.add(pagConEIni)
+		}
+		camCond.setgPaConEIniList(pagConEIniList)
+		camCond.setiCondOpe(TiCondOpe.getByVal(factura.condicionOperacion.toShort()))
 
 		camItem.setdCodInt("01")
 		camItem.setdParAranc(1234)

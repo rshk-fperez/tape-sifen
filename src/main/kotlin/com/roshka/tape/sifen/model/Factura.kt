@@ -3,6 +3,7 @@ package com.roshka.tape.sifen.model
 import java.sql.Time
 import java.time.LocalDate
 import java.time.LocalDateTime
+import kotlin.collections.mutableListOf
 
 data class Factura
 	(
@@ -33,5 +34,7 @@ data class Factura
 	var fechaInicioTimbrado: LocalDate,
 	var indicadorPresencia: Int,
 	var descIndicadorPresencia: String,
-	var fechaEmNR: LocalDate
+	var fechaEmNR: LocalDate,
+	var condicionOperacion: Int,
+	var pagoContadoEntregaInicial: MutableList<PagoContadoEntregaInicial>
 	) {}
