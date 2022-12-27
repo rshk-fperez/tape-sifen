@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import com.roshka.tape.sifen.model.Factura
+import com.roshka.tape.sifen.service.SifenService
 
 @RestController
 class TapeSifenController {
@@ -37,4 +41,11 @@ class TapeSifenController {
 		val cr = Sifen.consultaRUC(ruc)
 		return cr.getRespuestaBruta()
 	}
+	
+	@PostMapping("/factura")
+	fun enviarFactura(@RequestBody factura: Factura) : String {
+		val ss = SifenService()
+		return ss.sendInvoice(factura)
+	}
+	
 }
