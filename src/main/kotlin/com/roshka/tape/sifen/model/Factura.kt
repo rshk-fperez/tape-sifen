@@ -9,8 +9,6 @@ data class Factura
 	(
 	var numero: String,
 	var fecha: LocalDateTime,
-	var actividadEconomica: String,
-	var descActividadEconomica: String,
 	var nombreEmisor: String,
 	var direccionEmisor: String,
 	var rucEmisor: String,
@@ -36,5 +34,6 @@ data class Factura
 	var descIndicadorPresencia: String,
 	var fechaEmNR: LocalDate,
 	var condicionOperacion: Int,
-	var pagoContadoEntregaInicial: MutableList<PagoContadoEntregaInicial>
+	var pagoContadoEntregaInicial: MutableList<PagoContadoEntregaInicial>,
+	var actividadesEconomicas: MutableList<ActividadesEconomicas>
 	) {}

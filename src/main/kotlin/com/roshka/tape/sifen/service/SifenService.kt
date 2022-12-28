@@ -74,7 +74,6 @@ class SifenService {
 		val opeCom = TgOpeCom()
 		val dataGeneralOperaciones = TdDatGralOpe()
 		val codigoSeguridad = Random.nextInt(0,999999999)
-		val actEconomica = TgActEco()
 		val dataRec = TgDatRec()
 		val tipDe = TgDtipDE()
 		val camFe = TgCamFE()
@@ -85,8 +84,15 @@ class SifenService {
 		val valorRestaItem = TgValorRestaItem()
 		val camIva = TgCamIVA()
 		// Actividades economicas del emisor
-		actEconomica.setcActEco(factura.actividadEconomica)
-		actEconomica.setdDesActEco(factura.descActividadEconomica)
+		var actEconomica = TgActEco()
+		var actEconomicaList = mutableListOf(actEconomica)
+		factura.actividadesEconomicas.forEach(){
+			var actEconomica = TgActEco()
+			actEconomica.setcActEco(it.actividadEconomica)
+			actEconomica.setdDesActEco(it.descActividadEconomica)
+			actEconomicaList.add(actEconomica)
+		}
+		actEconomicaList.removeAt(0)
 		// Tipo emisor. Posibles valores: Normal y Contingencia
 		opeDe.setiTipEmi(TTipEmi.NORMAL)
 		// Codigo de seguridad random, debio ser numerico pero el metodo setdCodSeg recibe string
@@ -107,7 +113,7 @@ class SifenService {
 		
 		// Para this.getgDatGralOpe().getgEmis()
 		emisor.setiTipCont(TiTipCont.PERSONA_JURIDICA)
-		emisor.setgActEcoList(mutableListOf(actEconomica))
+		emisor.setgActEcoList(actEconomicaList)
 		// Para getgDatGralOpe().getdFeEmiDE()
 		dataGeneralOperaciones.setdFeEmiDE(factura.fecha)
 		dataGeneralOperaciones.setgEmis(emisor)
@@ -154,7 +160,6 @@ class SifenService {
 		
 		var pagConEIni = TgPaConEIni()
 		var pagConEIniList = mutableListOf(pagConEIni)
-		pagConEIniList.removeAt(0)
 		factura.pagoContadoEntregaInicial.forEach(){
 			var pagConEIni = TgPaConEIni()
 			pagConEIni.setiTiPago(TiTiPago.getByVal(it.tipoPago.toShort()))
@@ -163,6 +168,7 @@ class SifenService {
 			pagConEIni.setdTiCamTiPag(it.tipoCambio)
 			pagConEIniList.add(pagConEIni)
 		}
+		pagConEIniList.removeAt(0)
 		camCond.setgPaConEIniList(pagConEIniList)
 		camCond.setiCondOpe(TiCondOpe.getByVal(factura.condicionOperacion.toShort()))
 
