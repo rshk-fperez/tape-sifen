@@ -50,6 +50,7 @@ import com.roshka.sifen.core.fields.request.de.TgCamIVA
 import com.roshka.sifen.core.types.TiAfecIVA
 import com.roshka.sifen.core.fields.request.de.TgTotSub
 import com.roshka.sifen.Sifen
+import com.roshka.sifen.core.SifenConfig
 
 @Service
 class SifenService {
@@ -92,9 +93,14 @@ class SifenService {
 		// Tipo emisor. Posibles valores: Normal y Contingencia
 		opeDe.setiTipEmi(TTipEmi.NORMAL)
 		// Codigo de seguridad random, debio ser numerico pero el metodo setdCodSeg recibe string
-		opeDe.setdCodSeg(codigoSeguridad.toString())
-		emisor.setdNomEmi(factura.nombreEmisor)
-		emisor.setdDirEmi(factura.direccionEmisor)
+		opeDe.setdCodSeg(codigoSeguridad.toString().padStart(9, '0'))
+		if (Sifen.getSifenConfig().getAmbiente().toString() == "DEV") {
+			emisor.setdNomEmi("DE generado en ambiente de prueba - sin valor comercial ni fiscal")
+			emisor.setdDirEmi("DE generado en ambiente de prueba - sin valor comercial ni fiscal")
+		} else {
+			emisor.setdNomEmi(factura.nombreEmisor)
+			emisor.setdDirEmi(factura.direccionEmisor)
+		}
 		emisor.setdRucEm(factura.rucEmisor)
 		emisor.setdDVEmi(factura.dvEmisor)
 		// Por ahora definimos para que sea en Asuncion,
