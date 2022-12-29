@@ -35,5 +35,6 @@ data class Factura
 	var fechaEmNR: LocalDate,
 	var condicionOperacion: Int,
 	var pagoContadoEntregaInicial: MutableList<PagoContadoEntregaInicial>,
-	var actividadesEconomicas: MutableList<ActividadesEconomicas>
+	var actividadesEconomicas: MutableList<ActividadesEconomicas>,
+	var itemsOperacion: MutableList<ItemsOperacion>
 	) {}
