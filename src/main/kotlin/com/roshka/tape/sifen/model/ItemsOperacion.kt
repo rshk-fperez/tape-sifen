@@ -10,14 +10,9 @@ import org.firebirdsql.extern.decimal.Decimal
 data class ItemsOperacion
 	(
 		var codigoInterno: String,
-		var partidaArancelaria: Int,
-		var nCM: Int,
-		var codigoDNCPG: String,
-		var codigoDNCPE: String,
 		var descripcionProductoServicio: String,
 	    var unidadMedida: Short,
 	    var cantidadProductoServicio: BigDecimal,
-	    var codigoPaisOrigen: String,
 	    var infoInteres: String,
 	    var precioUnitario: BigDecimal,
 	    var descuentoItem: BigDecimal,
