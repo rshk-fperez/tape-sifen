@@ -90,7 +90,7 @@ class SifenService {
 			actEconomicaList.add(actEconomica)
 		}
 		actEconomicaList.removeAt(0)
-		// Tipo emisor. Posibles valores: Normal y Contingencia
+		// Tipo emisor. Posibles valores: 1 Normal, 2 Contingencia
 		opeDe.setiTipEmi(TTipEmi.NORMAL)
 		// Codigo de seguridad random, debio ser numerico pero el metodo setdCodSeg recibe string
 		opeDe.setdCodSeg(codigoSeguridad.toString().padStart(9, '0'))
@@ -114,16 +114,19 @@ class SifenService {
 		emisor.setdEmailE(factura.emailEmisor)
 		
 		// Para this.getgDatGralOpe().getgEmis()
-		emisor.setiTipCont(TiTipCont.PERSONA_JURIDICA)
+		// Naturaleza del contribuyente. 1 persona fisica, 2 persona juridica
+		emisor.setiTipCont(TiTipCont.getByVal(factura.tipoContribuyente))
 		emisor.setgActEcoList(actEconomicaList)
 		// Para getgDatGralOpe().getdFeEmiDE()
 		dataGeneralOperaciones.setdFeEmiDE(factura.fecha)
 		dataGeneralOperaciones.setgEmis(emisor)
 		// dataRec
+		// Naturaleza del contribuyente. 1 contribuyente, 2 no contribuyente
 		dataRec.setiNatRec(TiNatRec.CONTRIBUYENTE)
 		dataRec.setiTiOpe(TiTiOpe.B2B)
 		dataRec.setcPaisRec(PaisType.PYF)
-		dataRec.setiTiContRec(TiTipCont.PERSONA_JURIDICA)
+		// Tipo de contribuyente. 1 persona fisica, 2 persona juridica
+		dataRec.setiTiContRec(TiTipCont.getByVal(factura.tipoContribuyenteReceptor))
 		dataRec.setdRucRec(factura.rucReceptor)
 		dataRec.setdDVRec(factura.dvReceptor)
 		dataRec.setdNomRec(factura.nombreReceptor)
@@ -134,7 +137,7 @@ class SifenService {
 		
 		dataGeneralOperaciones.setgDatRec(dataRec)
 		// hay que setear los valores a opeCom
-		opeCom.setiTipTra(TTipTra.DONACION)
+		opeCom.setiTipTra(TTipTra.PRESTACION_SERVICIOS)
 		opeCom.setiTImp(TTImp.IVA)
 		opeCom.setcMoneOpe(CMondT.PYG)
 		opeCom.setdCondTiCam(TdCondTiCam.GLOBAL)
@@ -149,7 +152,6 @@ class SifenService {
 		timbrado.setdPunExp(factura.puntoExpedicion)
 		// Para this.getgTimb().getdNumDoc()
 		timbrado.setdNumDoc(factura.numero)
-		timbrado.setdSerieNum("AA")
 		timbrado.setdFeIniT(factura.fechaInicioTimbrado)
 				
 		camFe.setiIndPres(TiIndPres.getByVal(factura.indicadorPresencia.toShort()))
@@ -184,14 +186,9 @@ class SifenService {
 			var valorRestaItem = TgValorRestaItem()
 			var camIva = TgCamIVA()
 			camItem.setdCodInt(it.codigoInterno)
-			camItem.setdParAranc(it.partidaArancelaria.toShort())
-			camItem.setdNCM(it.nCM)
-			camItem.setdDncpG(it.codigoDNCPG)
-			camItem.setdDncpE(it.codigoDNCPE)
 			camItem.setdDesProSer(it.descripcionProductoServicio)
 			camItem.setcUniMed(TcUniMed.getByVal(it.unidadMedida))
 			camItem.setdCantProSer(it.cantidadProductoServicio)
-			camItem.setcPaisOrig(PaisType.getByName(it.codigoPaisOrigen))
 			camItem.setdInfItem(it.infoInteres)
 			valorRestaItem.setdDescItem(it.descuentoItem)
 			valorItem.setgValorRestaItem(valorRestaItem)
