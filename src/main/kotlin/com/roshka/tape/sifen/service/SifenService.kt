@@ -54,6 +54,8 @@ import com.roshka.sifen.core.SifenConfig
 import com.roshka.sifen.core.fields.request.de.TgPagTarCD
 import com.roshka.sifen.core.types.TiDenTarj
 import com.roshka.sifen.core.types.TiForProPa
+import com.roshka.sifen.core.fields.request.de.TgPagCred
+import com.roshka.sifen.core.types.TiCondCred
 
 @Service
 class SifenService {
@@ -165,27 +167,39 @@ class SifenService {
  		tipDe.setgCamFE(camFe)
 		//  TgCamCond gCamCond
 		
-		var pagConEIni = TgPaConEIni()
-		var pagConEIniList = mutableListOf(pagConEIni)
-		factura.pagoContadoEntregaInicial.forEach(){
-			var pagConEIni = TgPaConEIni()
-			pagConEIni.setiTiPago(TiTiPago.getByVal(it.tipoPago.toShort()))
-			pagConEIni.setdMonTiPag(it.montoPago)
-			pagConEIni.setcMoneTiPag(CMondT.getByName(it.monedaPago))
-			pagConEIni.setdTiCamTiPag(it.tipoCambio)
-			pagConEIniList.add(pagConEIni)
-			if (pagConEIni.getiTiPago() == TiTiPago.TARJETA_DE_CREDITO ||
-				pagConEIni.getiTiPago() == TiTiPago.TARJETA_DE_DEBITO) {
-				var pagTarCD = TgPagTarCD()
-				pagTarCD.setiDenTarj(TiDenTarj.getByVal(it.denominacionTarjeta))
-				pagTarCD.setiForProPa(TiForProPa.getByVal(it.formaProcesamientoPagoTarjeta))
-				pagConEIni.setgPagTarCD(pagTarCD)
-			}
-		}
-		pagConEIniList.removeAt(0)
-		camCond.setgPaConEIniList(pagConEIniList)
 		camCond.setiCondOpe(TiCondOpe.getByVal(factura.condicionOperacion.toShort()))
-
+		if (camCond.getiCondOpe() == TiCondOpe.CONTADO) {
+			var pagConEIni = TgPaConEIni()
+			var pagConEIniList = mutableListOf(pagConEIni)
+			factura.pagoContadoEntregaInicial.forEach(){
+				var pagConEIni = TgPaConEIni()
+				pagConEIni.setiTiPago(TiTiPago.getByVal(it.tipoPago.toShort()))
+				pagConEIni.setdMonTiPag(it.montoPago)
+				pagConEIni.setcMoneTiPag(CMondT.getByName(it.monedaPago))
+				pagConEIni.setdTiCamTiPag(it.tipoCambio)
+				pagConEIniList.add(pagConEIni)
+				if (pagConEIni.getiTiPago() == TiTiPago.TARJETA_DE_CREDITO ||
+					pagConEIni.getiTiPago() == TiTiPago.TARJETA_DE_DEBITO) {
+					var pagTarCD = TgPagTarCD()
+					pagTarCD.setiDenTarj(TiDenTarj.getByVal(it.denominacionTarjeta))
+					pagTarCD.setiForProPa(TiForProPa.getByVal(it.formaProcesamientoPagoTarjeta))
+					pagConEIni.setgPagTarCD(pagTarCD)
+				}
+			}
+			pagConEIniList.removeAt(0)
+			camCond.setgPaConEIniList(pagConEIniList)
+		} else if (camCond.getiCondOpe() == TiCondOpe.CREDITO) {
+			var pagCred = TgPagCred()
+			factura.pagoCredito?.forEach(){
+				pagCred.setiCondCred(TiCondCred.getByVal(it.condicionCredito))
+				if (pagCred.getiCondCred() == TiCondCred.PLAZO){
+					pagCred.setdPlazoCre(it.plazoCredito)
+				} else if (pagCred.getiCondCred() == TiCondCred.CUOTA){
+					pagCred.setdCuotas(it.cantidadCuotas)
+				}
+			}
+			camCond.setgPagCred(pagCred)
+		}
 		tipDe.setgCamCond(camCond)
 		// Detalles de la factura
 		var camItem = TgCamItem()

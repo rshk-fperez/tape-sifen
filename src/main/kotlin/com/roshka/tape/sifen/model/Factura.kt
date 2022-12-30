@@ -38,5 +38,6 @@ data class Factura
 	var condicionOperacion: Int,
 	var pagoContadoEntregaInicial: MutableList<PagoContadoEntregaInicial>,
 	var actividadesEconomicas: MutableList<ActividadesEconomicas>,
-	var itemsOperacion: MutableList<ItemsOperacion>
+	var itemsOperacion: MutableList<ItemsOperacion>,
+	var pagoCredito: MutableList<PagoCredito>? = null
 	) {}
