@@ -51,6 +51,9 @@ import com.roshka.sifen.core.types.TiAfecIVA
 import com.roshka.sifen.core.fields.request.de.TgTotSub
 import com.roshka.sifen.Sifen
 import com.roshka.sifen.core.SifenConfig
+import com.roshka.sifen.core.fields.request.de.TgPagTarCD
+import com.roshka.sifen.core.types.TiDenTarj
+import com.roshka.sifen.core.types.TiForProPa
 
 @Service
 class SifenService {
@@ -171,6 +174,13 @@ class SifenService {
 			pagConEIni.setcMoneTiPag(CMondT.getByName(it.monedaPago))
 			pagConEIni.setdTiCamTiPag(it.tipoCambio)
 			pagConEIniList.add(pagConEIni)
+			if (pagConEIni.getiTiPago() == TiTiPago.TARJETA_DE_CREDITO ||
+				pagConEIni.getiTiPago() == TiTiPago.TARJETA_DE_DEBITO) {
+				var pagTarCD = TgPagTarCD()
+				pagTarCD.setiDenTarj(TiDenTarj.getByVal(it.denominacionTarjeta))
+				pagTarCD.setiForProPa(TiForProPa.getByVal(it.formaProcesamientoPagoTarjeta))
+				pagConEIni.setgPagTarCD(pagTarCD)
+			}
 		}
 		pagConEIniList.removeAt(0)
 		camCond.setgPaConEIniList(pagConEIniList)

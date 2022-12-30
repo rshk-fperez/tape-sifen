@@ -10,5 +10,8 @@ data class PagoContadoEntregaInicial
 		var tipoPago: Int,
 		var montoPago: BigDecimal,
 		var monedaPago: String,
-		var tipoCambio: BigDecimal
+		var tipoCambio: BigDecimal,
+		// Campos para cuando el pago es via tarjeta de debito o credito
+		var denominacionTarjeta : Short = 0,
+		var formaProcesamientoPagoTarjeta: Short = 0
 	){}
