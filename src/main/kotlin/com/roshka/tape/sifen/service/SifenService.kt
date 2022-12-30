@@ -56,6 +56,7 @@ import com.roshka.sifen.core.types.TiDenTarj
 import com.roshka.sifen.core.types.TiForProPa
 import com.roshka.sifen.core.fields.request.de.TgPagCred
 import com.roshka.sifen.core.types.TiCondCred
+import com.roshka.sifen.core.fields.request.de.TgPagCheq
 
 @Service
 class SifenService {
@@ -184,6 +185,13 @@ class SifenService {
 					pagTarCD.setiDenTarj(TiDenTarj.getByVal(it.denominacionTarjeta))
 					pagTarCD.setiForProPa(TiForProPa.getByVal(it.formaProcesamientoPagoTarjeta))
 					pagConEIni.setgPagTarCD(pagTarCD)
+				} else if (pagConEIni.getiTiPago() == TiTiPago.CHEQUE){
+					var pagCheque = TgPagCheq()
+					it.pagoCheque?.forEach(){
+						pagCheque.setdNumCheq(it.numeroCheque)
+						pagCheque.setdBcoEmi(it.bancoEmisorCheque)
+					}
+					pagConEIni.setgPagCheq(pagCheque)
 				}
 			}
 			pagConEIniList.removeAt(0)
