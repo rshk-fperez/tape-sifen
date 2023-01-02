@@ -36,7 +36,7 @@ data class Factura
 	var descIndicadorPresencia: String,
 	var fechaEmNR: LocalDate,
 	var condicionOperacion: Int,
-	var pagoContadoEntregaInicial: MutableList<PagoContadoEntregaInicial>,
+	var pagoContadoEntregaInicial: MutableList<PagoContadoEntregaInicial>? = null,
 	var actividadesEconomicas: MutableList<ActividadesEconomicas>,
 	var itemsOperacion: MutableList<ItemsOperacion>,
 	var pagoCredito: MutableList<PagoCredito>? = null

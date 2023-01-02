@@ -167,12 +167,14 @@ class SifenService {
 		
  		tipDe.setgCamFE(camFe)
 		//  TgCamCond gCamCond
-		
+		val existMontoEntregaInicial = factura.pagoCredito?.find { it.montoEntregaInicial != null};
 		camCond.setiCondOpe(TiCondOpe.getByVal(factura.condicionOperacion.toShort()))
-		if (camCond.getiCondOpe() == TiCondOpe.CONTADO) {
+		if (camCond.getiCondOpe() == TiCondOpe.CONTADO ||
+		(factura.pagoCredito != null
+		&& existMontoEntregaInicial != null )){
 			var pagConEIni = TgPaConEIni()
 			var pagConEIniList = mutableListOf(pagConEIni)
-			factura.pagoContadoEntregaInicial.forEach(){
+			factura.pagoContadoEntregaInicial?.forEach(){
 				var pagConEIni = TgPaConEIni()
 				pagConEIni.setiTiPago(TiTiPago.getByVal(it.tipoPago.toShort()))
 				pagConEIni.setdMonTiPag(it.montoPago)
@@ -206,6 +208,9 @@ class SifenService {
 					pagCred.setdPlazoCre(it.plazoCredito)
 				} else if (pagCred.getiCondCred() == TiCondCred.CUOTA){
 					pagCred.setdCuotas(it.cantidadCuotas)
+				}
+				if (it.montoEntregaInicial != null) {
+					pagCred.setdMonEnt(it.montoEntregaInicial)
 				}
 			}
 			camCond.setgPagCred(pagCred)

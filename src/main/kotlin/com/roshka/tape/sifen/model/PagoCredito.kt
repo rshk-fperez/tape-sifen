@@ -8,5 +8,6 @@ import java.math.BigDecimal
 data class PagoCredito(
 	var condicionCredito: Short,
 	var plazoCredito: String,
-	var cantidadCuotas: Short
+	var cantidadCuotas: Short,
+	var montoEntregaInicial: BigDecimal?
 ) {}
