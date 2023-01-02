@@ -182,8 +182,10 @@ class SifenService {
 				if (pagConEIni.getiTiPago() == TiTiPago.TARJETA_DE_CREDITO ||
 					pagConEIni.getiTiPago() == TiTiPago.TARJETA_DE_DEBITO) {
 					var pagTarCD = TgPagTarCD()
-					pagTarCD.setiDenTarj(TiDenTarj.getByVal(it.denominacionTarjeta))
-					pagTarCD.setiForProPa(TiForProPa.getByVal(it.formaProcesamientoPagoTarjeta))
+					it.pagoTarjeta?.forEach(){
+						pagTarCD.setiDenTarj(TiDenTarj.getByVal(it.denominacionTarjeta))
+						pagTarCD.setiForProPa(TiForProPa.getByVal(it.formaProcesamientoPagoTarjeta))							
+					}
 					pagConEIni.setgPagTarCD(pagTarCD)
 				} else if (pagConEIni.getiTiPago() == TiTiPago.CHEQUE){
 					var pagCheque = TgPagCheq()

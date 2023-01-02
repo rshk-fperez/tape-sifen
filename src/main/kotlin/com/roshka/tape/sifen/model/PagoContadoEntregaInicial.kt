@@ -11,8 +11,6 @@ data class PagoContadoEntregaInicial
 		var montoPago: BigDecimal,
 		var monedaPago: String,
 		var tipoCambio: BigDecimal,
-		// Campos para cuando el pago es via tarjeta de debito o credito
-		var denominacionTarjeta : Short = 0,
-		var formaProcesamientoPagoTarjeta: Short = 0,
-		var pagoCheque: MutableList<PagoCheque>? = null
+		var pagoCheque: MutableList<PagoCheque>? = null,
+		var pagoTarjeta: MutableList<PagoTarjeta>? = null
 	){}
