@@ -87,15 +87,14 @@ class SifenService {
 		val totSub = TgTotSub()
 		val camCond = TgCamCond()
 		// Actividades economicas del emisor
-		var actEconomica = TgActEco()
-		var actEconomicaList = mutableListOf(actEconomica)
+		var actEconomicaList = mutableListOf<TgActEco>()
 		factura.actividadesEconomicas.forEach(){
 			var actEconomica = TgActEco()
 			actEconomica.setcActEco(it.actividadEconomica)
 			actEconomica.setdDesActEco(it.descActividadEconomica)
 			actEconomicaList.add(actEconomica)
 		}
-		actEconomicaList.removeAt(0)
+		emisor.setgActEcoList(actEconomicaList)
 		// Tipo emisor. Posibles valores: 1 Normal, 2 Contingencia
 		opeDe.setiTipEmi(TTipEmi.NORMAL)
 		// Codigo de seguridad random, debio ser numerico pero el metodo setdCodSeg recibe string
@@ -122,7 +121,6 @@ class SifenService {
 		// Para this.getgDatGralOpe().getgEmis()
 		// Naturaleza del contribuyente. 1 persona fisica, 2 persona juridica
 		emisor.setiTipCont(TiTipCont.getByVal(factura.tipoContribuyente))
-		emisor.setgActEcoList(actEconomicaList)
 		// Para getgDatGralOpe().getdFeEmiDE()
 		dataGeneralOperaciones.setdFeEmiDE(factura.fecha)
 		dataGeneralOperaciones.setgEmis(emisor)
@@ -172,8 +170,7 @@ class SifenService {
 		if (camCond.getiCondOpe() == TiCondOpe.CONTADO ||
 		(factura.pagoCredito != null
 		&& existMontoEntregaInicial != null )){
-			var pagConEIni = TgPaConEIni()
-			var pagConEIniList = mutableListOf(pagConEIni)
+			var pagConEIniList = mutableListOf<TgPaConEIni>()
 			factura.pagoContadoEntregaInicial?.forEach(){
 				var pagConEIni = TgPaConEIni()
 				pagConEIni.setiTiPago(TiTiPago.getByVal(it.tipoPago.toShort()))
@@ -198,7 +195,6 @@ class SifenService {
 					pagConEIni.setgPagCheq(pagCheque)
 				}
 			}
-			pagConEIniList.removeAt(0)
 			camCond.setgPaConEIniList(pagConEIniList)
 		} else if (camCond.getiCondOpe() == TiCondOpe.CREDITO) {
 			var pagCred = TgPagCred()
@@ -217,8 +213,7 @@ class SifenService {
 		}
 		tipDe.setgCamCond(camCond)
 		// Detalles de la factura
-		var camItem = TgCamItem()
-		var camItemList = mutableListOf(camItem)
+		var camItemList = mutableListOf<TgCamItem>()
 		factura.itemsOperacion.forEach(){
 			var camItem = TgCamItem()
 			var valorItem = TgValorItem()
@@ -239,7 +234,6 @@ class SifenService {
 			camItem.setgValorItem(valorItem)
 			camItemList.add(camItem)
 		}
-		camItemList.removeAt(0)
 		tipDe.setgCamItemList(camItemList)
 		documentoElectronico.setgTimb(timbrado)
 		documentoElectronico.setgDatGralOpe(dataGeneralOperaciones)
