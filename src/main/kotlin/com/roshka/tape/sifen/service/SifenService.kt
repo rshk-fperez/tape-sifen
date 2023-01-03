@@ -61,8 +61,7 @@ import com.roshka.sifen.core.fields.request.de.TgPagCheq
 @Service
 class SifenService {
 
-    protected lateinit var logger : LoggerFactory
-
+	val logger = LoggerFactory.getLogger("SifenService")
 
     @Scheduled
     fun checkPendingInvoices()
@@ -74,12 +73,14 @@ class SifenService {
     }
 
 	fun sendInvoice(factura : Factura) : String  {
+		logger.info("Recibimos factura electronica")
 		val documentoElectronico = DocumentoElectronico()
 		val timbrado = TgTimb()
 		val emisor = TgEmis()
 		val opeDe = TgOpeDE()
 		val opeCom = TgOpeCom()
 		val dataGeneralOperaciones = TdDatGralOpe()
+		logger.info("Se genera codigo de seguridad")
 		val codigoSeguridad = Random.nextInt(0,999999999)
 		val dataRec = TgDatRec()
 		val tipDe = TgDtipDE()
@@ -87,6 +88,7 @@ class SifenService {
 		val totSub = TgTotSub()
 		val camCond = TgCamCond()
 		// Actividades economicas del emisor
+		logger.info("Se obtiene el listado de actividades economicas")
 		var actEconomicaList = mutableListOf<TgActEco>()
 		factura.actividadesEconomicas.forEach(){
 			var actEconomica = TgActEco()
@@ -167,6 +169,7 @@ class SifenService {
 		//  TgCamCond gCamCond
 		val existMontoEntregaInicial = factura.pagoCredito?.find { it.montoEntregaInicial != null};
 		camCond.setiCondOpe(TiCondOpe.getByVal(factura.condicionOperacion.toShort()))
+		logger.info("Se evalua si es necesario armar el objeto pagConEIni")
 		if (camCond.getiCondOpe() == TiCondOpe.CONTADO ||
 		(factura.pagoCredito != null
 		&& existMontoEntregaInicial != null )){
@@ -213,6 +216,7 @@ class SifenService {
 		}
 		tipDe.setgCamCond(camCond)
 		// Detalles de la factura
+		logger.info("Se obtienen los detalles de la factura para cargar el objeto TgCamItem")
 		var camItemList = mutableListOf<TgCamItem>()
 		factura.itemsOperacion.forEach(){
 			var camItem = TgCamItem()
@@ -242,7 +246,7 @@ class SifenService {
 		documentoElectronico.setgOpeDE(opeDe)
 		documentoElectronico.setgDtipDE(tipDe)
 		documentoElectronico.setgTotSub(totSub)
-		
+		logger.info("Se invocara al metodo Sifen.recepcionDE")
 		val ef = Sifen.recepcionDE(documentoElectronico)
 		return ef.getRespuestaBruta()
 	}

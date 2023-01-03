@@ -42,6 +42,10 @@ class TapeSifenController {
 		return cr.getRespuestaBruta()
 	}
 	
+	/*
+ 	 * Funcion que envia a SIFEN un documento electronico,
+	 * de acuerdo al parametro recibido (JSON con datos de la factura).
+	 */
 	@PostMapping("/factura")
 	fun enviarFactura(@RequestBody factura: Factura) : String {
 		val ss = SifenService()
