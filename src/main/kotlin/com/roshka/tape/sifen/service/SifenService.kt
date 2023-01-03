@@ -199,7 +199,9 @@ class SifenService {
 				}
 			}
 			camCond.setgPaConEIniList(pagConEIniList)
-		} else if (camCond.getiCondOpe() == TiCondOpe.CREDITO) {
+		} 
+
+		if (camCond.getiCondOpe() == TiCondOpe.CREDITO) {
 			var pagCred = TgPagCred()
 			factura.pagoCredito?.forEach(){
 				pagCred.setiCondCred(TiCondCred.getByVal(it.condicionCredito))
