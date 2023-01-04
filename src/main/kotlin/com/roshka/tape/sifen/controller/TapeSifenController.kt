@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import com.roshka.tape.sifen.model.Factura
 import com.roshka.tape.sifen.service.SifenService
+import org.slf4j.LoggerFactory
 
 @RestController
 class TapeSifenController {
-	
+	val logger = LoggerFactory.getLogger("TapeSifenController")
 	
 	/*
  	 * Inicializamos la configuracion de sifen a partir de lo
@@ -26,10 +27,12 @@ class TapeSifenController {
 	
 	init {
 		try {
+			logger.info("Se intentara cargar la config de SIFEN desde config/sifen.properties")
 			val sc = SifenConfig.cargarConfiguracion("config/sifen.properties")
 			Sifen.setSifenConfig(sc)
+			logger.info("Config de SIFEN cargada correctamente")
 		} catch (e: SifenException) {
-			e.printStackTrace()
+			logger.error("Error al cargar la configuracion de SIFEN "+e.printStackTrace())			
 		}
 	}
 	
@@ -38,6 +41,7 @@ class TapeSifenController {
 	 */
 	@GetMapping("/ruc/{ruc}")
 	fun consultaRuc(@PathVariable ruc: String) : String {
+		logger.info("RUC consultado: "+ruc)
 		val cr = Sifen.consultaRUC(ruc)
 		return cr.getRespuestaBruta()
 	}
@@ -48,6 +52,7 @@ class TapeSifenController {
 	 */
 	@PostMapping("/factura")
 	fun enviarFactura(@RequestBody factura: Factura) : String {
+		logger.info("Se invocará a SifenService para generar el DE")
 		val ss = SifenService()
 		return ss.sendInvoice(factura)
 	}
