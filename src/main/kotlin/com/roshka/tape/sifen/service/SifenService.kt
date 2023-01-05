@@ -130,7 +130,7 @@ class SifenService {
 		// Naturaleza del contribuyente. 1 contribuyente, 2 no contribuyente
 		dataRec.setiNatRec(TiNatRec.CONTRIBUYENTE)
 		dataRec.setiTiOpe(TiTiOpe.B2B)
-		dataRec.setcPaisRec(PaisType.PYF)
+		dataRec.setcPaisRec(PaisType.PRY)
 		// Tipo de contribuyente. 1 persona fisica, 2 persona juridica
 		dataRec.setiTiContRec(TiTipCont.getByVal(factura.tipoContribuyenteReceptor))
 		dataRec.setdRucRec(factura.rucReceptor)
@@ -179,7 +179,10 @@ class SifenService {
 				pagConEIni.setiTiPago(TiTiPago.getByVal(it.tipoPago.toShort()))
 				pagConEIni.setdMonTiPag(it.montoPago)
 				pagConEIni.setcMoneTiPag(CMondT.getByName(it.monedaPago))
-				pagConEIni.setdTiCamTiPag(it.tipoCambio)
+				// Solo debe asignarse cuando el tipo de moneda es distinto a PYG
+				if (pagConEIni.getcMoneTiPag() != CMondT.getByName("PYG")){
+					pagConEIni.setdTiCamTiPag(it.tipoCambio)
+				}
 				pagConEIniList.add(pagConEIni)
 				if (pagConEIni.getiTiPago() == TiTiPago.TARJETA_DE_CREDITO ||
 					pagConEIni.getiTiPago() == TiTiPago.TARJETA_DE_DEBITO) {
