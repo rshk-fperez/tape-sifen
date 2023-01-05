@@ -57,6 +57,9 @@ class TapeSifenController {
 		return ss.sendInvoice(factura)
 	}
 	
+	/*
+ 	 * Funcion que obtiene datos de la factura a partir del CDC.
+	 */
 	@GetMapping("/factura/{cdc}")
 	fun getFactura(@PathVariable cdc: String) : String {
 		logger.info("CDC de factura a consultar: "+cdc)
