@@ -57,6 +57,7 @@ import com.roshka.sifen.core.types.TiForProPa
 import com.roshka.sifen.core.fields.request.de.TgPagCred
 import com.roshka.sifen.core.types.TiCondCred
 import com.roshka.sifen.core.fields.request.de.TgPagCheq
+import com.roshka.sifen.core.fields.request.de.TgCuotas
 
 @Service
 class SifenService {
@@ -212,6 +213,15 @@ class SifenService {
 					pagCred.setdPlazoCre(it.plazoCredito)
 				} else if (pagCred.getiCondCred() == TiCondCred.CUOTA){
 					pagCred.setdCuotas(it.cantidadCuotas)
+					var cuotaList = mutableListOf<TgCuotas>()
+					it.cuotas?.forEach() {
+						var cuota = TgCuotas()
+						cuota.setcMoneCuo(CMondT.getByName(it.monedaCuota))
+						cuota.setdMonCuota(it.montoCuota)
+						cuota.setdVencCuo(it.vencimientoCuota)
+						cuotaList.add(cuota)
+					}
+					pagCred.setgCuotasList(cuotaList)
 				}
 				if (it.montoEntregaInicial != null) {
 					pagCred.setdMonEnt(it.montoEntregaInicial)

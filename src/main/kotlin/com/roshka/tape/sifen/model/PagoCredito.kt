@@ -9,5 +9,6 @@ data class PagoCredito(
 	var condicionCredito: Short,
 	var plazoCredito: String,
 	var cantidadCuotas: Short,
-	var montoEntregaInicial: BigDecimal?
+	var montoEntregaInicial: BigDecimal?,
+	var cuotas: MutableList<Cuotas>?=null
 ) {}
