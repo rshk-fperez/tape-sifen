@@ -57,4 +57,10 @@ class TapeSifenController {
 		return ss.sendInvoice(factura)
 	}
 	
+	@GetMapping("/factura/{cdc}")
+	fun getFactura(@PathVariable cdc: String) : String {
+		logger.info("CDC de factura a consultar: "+cdc)
+		val fc = Sifen.consultaDE(cdc)
+		return fc.getRespuestaBruta()
+	}
 }
