@@ -26,6 +26,8 @@ dependencies {
 	implementation("javax.xml.soap:javax.xml.soap-api:1.4.0")
 	implementation("org.glassfish.metro:webservices-rt:2.4.4")
 	implementation("org.glassfish.metro:webservices-api:2.4.4")
+	implementation("net.sf.jasperreports:jasperreports:6.16.0")
+	implementation("com.lowagie:itext:2.1.7")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
