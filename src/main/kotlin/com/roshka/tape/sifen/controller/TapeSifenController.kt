@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import com.roshka.tape.sifen.model.Factura
 import com.roshka.tape.sifen.service.SifenService
 import org.slf4j.LoggerFactory
+import com.roshka.sifen.core.beans.response.RespuestaConsultaDE
 
 @RestController
 class TapeSifenController {
@@ -63,7 +64,11 @@ class TapeSifenController {
 	@GetMapping("/factura/{cdc}")
 	fun getFactura(@PathVariable cdc: String) : String {
 		logger.info("CDC de factura a consultar: "+cdc)
-		val fc = Sifen.consultaDE(cdc)
+		val fc = getDatosFactura(cdc)
 		return fc.getRespuestaBruta()
+	}
+	
+	fun getDatosFactura(cdc: String) : RespuestaConsultaDE {
+		return Sifen.consultaDE(cdc)
 	}
 }
