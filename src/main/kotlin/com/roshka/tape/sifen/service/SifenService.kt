@@ -147,8 +147,6 @@ class SifenService {
 		opeCom.setiTipTra(TTipTra.PRESTACION_SERVICIOS)
 		opeCom.setiTImp(TTImp.IVA)
 		opeCom.setcMoneOpe(CMondT.PYG)
-		opeCom.setdCondTiCam(TdCondTiCam.GLOBAL)
-		opeCom.setiCondAnt(TiCondAnt.ANTICIPO_GLOBAL)
 		dataGeneralOperaciones.setgOpeCom(opeCom)
 		
 		timbrado.setiTiDE(TTiDE.FACTURA_ELECTRONICA)
@@ -164,7 +162,9 @@ class SifenService {
 		camFe.setiIndPres(TiIndPres.getByVal(factura.indicadorPresencia.toShort()))
 		camFe.setdDesIndPres(camFe.getiIndPres().getDescripcion())
 		
-		camFe.setdFecEmNR(factura.fechaEmNR)
+		if (factura.fechaEmNR != null) {
+			camFe.setdFecEmNR(factura.fechaEmNR)
+		}
 		
  		tipDe.setgCamFE(camFe)
 		//  TgCamCond gCamCond

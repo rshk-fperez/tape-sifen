@@ -34,7 +34,7 @@ data class Factura
 	var fechaInicioTimbrado: LocalDate,
 	var indicadorPresencia: Int,
 	var descIndicadorPresencia: String,
-	var fechaEmNR: LocalDate,
+	var fechaEmNR: LocalDate?,
 	var condicionOperacion: Int,
 	var pagoContadoEntregaInicial: MutableList<PagoContadoEntregaInicial>? = null,
 	var actividadesEconomicas: MutableList<ActividadesEconomicas>,
