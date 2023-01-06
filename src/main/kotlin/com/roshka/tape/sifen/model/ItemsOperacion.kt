@@ -15,7 +15,7 @@ data class ItemsOperacion
 	    var cantidadProductoServicio: BigDecimal,
 	    var infoInteres: String,
 	    var precioUnitario: BigDecimal,
-	    var descuentoItem: BigDecimal,
+	    var descuentoItem: BigDecimal?,
 	    var afectaIVA: Short,
 	    var proporcionIVA: BigDecimal,
 	    var tasaIVA: BigDecimal

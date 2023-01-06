@@ -243,7 +243,9 @@ class SifenService {
 			camItem.setcUniMed(TcUniMed.getByVal(it.unidadMedida))
 			camItem.setdCantProSer(it.cantidadProductoServicio)
 			camItem.setdInfItem(it.infoInteres)
-			valorRestaItem.setdDescItem(it.descuentoItem)
+			if (it.descuentoItem != null) {
+				valorRestaItem.setdDescItem(it.descuentoItem)
+			}
 			valorItem.setgValorRestaItem(valorRestaItem)
 			valorItem.setdPUniProSer(it.precioUnitario)
 			camIva.setiAfecIVA(TiAfecIVA.getByVal(it.afectaIVA))
