@@ -267,4 +267,15 @@ class SifenService {
 		val ef = Sifen.recepcionDE(documentoElectronico)
 		return ef.getRespuestaBruta()
 	}
+	
+	fun recepcionDocumentoElectronico (xml: String) : String {
+		val de = DocumentoElectronico(xml)
+		val rde = Sifen.recepcionDE(de)
+		return rde.getRespuestaBruta()
+	}
+	
+	fun recepcionLoteDocumentoElectronico (xml: String) : String {
+		return xml
+	}
+	
 }

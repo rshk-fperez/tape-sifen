@@ -20,7 +20,7 @@ import com.roshka.sifen.core.beans.response.RespuestaConsultaDE
 @RestController
 class TapeSifenController {
 	val logger = LoggerFactory.getLogger("TapeSifenController")
-	
+	val sifenService = SifenService()
 	/*
  	 * Inicializamos la configuracion de sifen a partir de lo
  	 * que se defina en sifen.properties
@@ -54,8 +54,7 @@ class TapeSifenController {
 	@PostMapping("/factura")
 	fun enviarFactura(@RequestBody factura: Factura) : String {
 		logger.info("Se invocará a SifenService para generar el DE")
-		val ss = SifenService()
-		return ss.sendInvoice(factura)
+		return sifenService.sendInvoice(factura)
 	}
 	
 	/*
@@ -70,5 +69,15 @@ class TapeSifenController {
 	
 	fun getDatosFactura(cdc: String) : RespuestaConsultaDE {
 		return Sifen.consultaDE(cdc)
+	}
+	
+	@PostMapping("/factura/recibir")
+	fun recepcionDocumentoElectronico(@RequestBody xml: String): String {
+		return sifenService.recepcionDocumentoElectronico(xml)
+	}
+	
+	@PostMapping("/lotes-factura/recibir")
+	fun recepcionLoteDocumentosElectronicos(@RequestBody xml: String): String {
+		return sifenService.recepcionDocumentoElectronico(xml)
 	}
 }
