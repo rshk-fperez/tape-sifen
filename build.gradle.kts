@@ -14,6 +14,9 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
 	mavenCentral()
+	maven{
+		url = uri("[https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/")
+	}
 }
 
 dependencies {
@@ -28,6 +31,13 @@ dependencies {
 	implementation("org.glassfish.metro:webservices-api:2.4.4")
 	implementation("net.sf.jasperreports:jasperreports:6.16.0")
 	implementation("com.lowagie:itext:2.1.7")
+	implementation("org.json:json:20190722")
+	implementation("xmlpull:xmlpull:1.1.3.4a")
+	implementation("xalan:xalan:2.7.0")
+	implementation("com.google.zxing:core:3.3.0")
+	implementation("com.google.zxing:javase:3.3.0")
+	implementation("net.sf.barcode4j:barcode4j:2.1")
+	implementation("org.apache.xmlgraphics:batik-bridge:1.11")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
