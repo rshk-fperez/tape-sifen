@@ -263,8 +263,17 @@ class SifenService {
 		documentoElectronico.setgOpeDE(opeDe)
 		documentoElectronico.setgDtipDE(tipDe)
 		documentoElectronico.setgTotSub(totSub)
-		logger.info("Se invocara al metodo Sifen.recepcionDE")
-		val ef = Sifen.recepcionDE(documentoElectronico)
+		logger.info("Se invocara al metodo Sifen.recepcionLoteDE")
+		val loteDe = mutableListOf<DocumentoElectronico>()
+		loteDe.add(documentoElectronico)
+		val ef = Sifen.recepcionLoteDE(loteDe)
+		// El codigo resultado 0301 es devuelto por Sifen cuando no se recibe exitosamente el lote.
+		if (ef.getdCodRes() == "0301"){
+			logger.info("El lote no pudo ser procesado para envio. Motivo: "+ef.getdMsgRes())			
+		}
+		else {
+			logger.info("Lote procesado exitosamente. Nro de lote obtenido: "+ ef.getdProtConsLote())			
+		}
 		return ef.getRespuestaBruta()
 	}
 	
